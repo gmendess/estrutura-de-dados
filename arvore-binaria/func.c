@@ -122,5 +122,21 @@ void inOrder(Node* subtree){
    inOrder(subtree->right);
 }
 
+void free_tree(Tree* tr){
+   if(tr == NULL) return;
+   free_node(tr->root);
+   free(tr);
+   tr->root = NULL;
+   tr = NULL;
+}
+
+void free_node(Node* node){
+   if(node == NULL) return;
+   free_node(node->left);
+   free_node(node->right);
+   free(node);
+   node = NULL;
+}
+
 
 #endif 

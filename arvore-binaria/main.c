@@ -5,14 +5,7 @@
 
 int main(){
 
-   Node* teste = NULL,
-       * a123 = NULL;
-
-   srand(time(0));
    Tree* tr = create_tree();
-
-   //for(int x = 0; x < 10; x++)
-   //   new_node(&tr->root, rand() % 100);
 
    new_node(&tr->root, 10);
    new_node(&tr->root, 5);
@@ -20,9 +13,12 @@ int main(){
    new_node(&tr->root, 20);
    new_node(&tr->root, 19);
    new_node(&tr->root, 30);
+
    preOrder(tr->root);
    puts("");
-   remove_from_tree(tr, 10);
+   
+   free_tree(tr);
+   
    preOrder(tr->root);
    puts("");
    return 0;

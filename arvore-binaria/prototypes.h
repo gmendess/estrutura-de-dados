@@ -20,5 +20,7 @@ Node* remove_current(Node* current);
 void preOrder(Node* node);
 void inOrder(Node* node);
 void postOrder(Node* node);
+void free_tree(Tree* tr);
+void free_node(Node* node);
 
 #endif
