@@ -87,16 +87,17 @@ void pop(List* const list) {
     return;
   }
 
-  Node* aux = findNode(list, list->end->id - 1);
   list->curr_id = list->end->id;
   free(list->end);
-  if(aux == list->head) {
-    list->head = NULL;
+  
+  if(list->head->next == NULL){
     list->end = NULL;
-  } 
-  else {
+    list->head = NULL;
+  }
+  else{
+    Node* aux = findNode(list, list->curr_id - 1);
+    aux->next = NULL;
     list->end = aux;
-    list->end->next = NULL;
   }
 
   --list->size;
