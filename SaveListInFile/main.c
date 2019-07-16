@@ -14,12 +14,16 @@ int main(const int argc, const char** argv) {
   addNode(list, "Olá mundo!");
   addNode(list, "AAA doidera!");
   addNode(list, "Teste!");
-  addNode(list, "123!");
-  addNode(list, "Gabriel!");
+  addNode(list, "Teste2!");
+  addNode(list, "Teste3!");
+  addNode(list, "Teste4!");
+  
+  puts("-----");
   printList(list);
-  puts("");
+
   pop(list);
-  pop(list);
+
+  puts("-----");
   printList(list);
 
   return 0;
