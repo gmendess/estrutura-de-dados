@@ -3,10 +3,6 @@
 #include <string.h>
 #include "linked_list.h"
 
-#define          SUCCESS  1
-#define        NULL_LIST  0
-#define CREATE_NODE_FAIL -1
-
 List* createList() {
   
   List* list = (List*) malloc( sizeof(List) );
@@ -32,7 +28,7 @@ Node* createNode() {
 
 Node* findNode(const List* const list, const int index) {
   Node* aux = list->head;
-  while(aux->next != NULL && aux->id != index)
+  while(aux != NULL && aux->id != index)
     aux = aux->next;
 
   return aux;
@@ -40,16 +36,12 @@ Node* findNode(const List* const list, const int index) {
 
 
 int addNode(List* const list, const char* msg) {
-  if(list == NULL){
-    fprintf(stderr, "A lista passada é nula!\n");
+  if(list == NULL)
     return NULL_LIST;
-  }
 
   Node* new_node = createNode();
-  if(!new_node) {
-    fprintf(stderr, "Falha ao criar novo nó!\n");
+  if(new_node == NULL)
     return CREATE_NODE_FAIL;
-  }
 
   new_node->id = list->curr_id;
   strcpy(new_node->buffer, msg);
@@ -63,12 +55,13 @@ int addNode(List* const list, const char* msg) {
     list->end = new_node;
   }
   else { // node vai ser colocado na posição curr_id da lista
-
     //pegando o node anterior da posição que eu quero colocar meu novo node
     Node* aux = findNode(list, list->curr_id - 1);
+    if(aux == NULL)
+      return SEARCH_NODE_FAIL;
+    
     new_node->next = aux->next;
     aux->next = new_node;
-
   }
   
   ++list->size;
@@ -77,17 +70,13 @@ int addNode(List* const list, const char* msg) {
   return SUCCESS;
 }
 
-void pop(List* const list) {
-  if(list == NULL) {
-    fprintf(stderr, "List nula!\n");
-    return;
-  }
-  else if(list->head == NULL) {
-    puts("Lista vazia!");
-    return;
-  }
+int pop(List* const list) {
+  if(list == NULL)
+    return NULL_LIST;
+  else if(list->head == NULL)
+    return EMPTY_LIST;
 
-  list->curr_id = list->end->id;
+  list->curr_id = list->end->id; // salva o id do último nó, que será o id do próximo nó a ser adicionado
   free(list->end);
   
   if(list->head->next == NULL){
@@ -95,22 +84,42 @@ void pop(List* const list) {
     list->head = NULL;
   }
   else{
-    Node* aux = findNode(list, list->curr_id - 1);
+    //como dei free em list->end, tive que usar list->curr_id no lugar de list->end->id
+    Node* aux = findNode(list, list->curr_id - 1); // pega nó anterior ao último
+    if(aux == NULL)
+      return SEARCH_NODE_FAIL;
+
     aux->next = NULL;
     list->end = aux;
   }
 
   --list->size;
+
+  return SUCCESS;
 }
 
-void printList(const List* const list) {
+int removeNode(List* const list, const int index) {
+  if(list == NULL)
+    return NULL_LIST;
+  else if(list->head == NULL)
+    return EMPTY_LIST;
+  else if(index < 0)
+    return INVALID_INDEX;
+
+
+
+  return SUCCESS;
+
+}
+
+int printList(const List* const list) {
   if(list == NULL) {
-    fprintf(stderr, "List nula!\n");
-    return;
+    fprintf(stderr, "Lista nula!\n");
+    return NULL_LIST;
   }
   else if(list->head == NULL) {
-    puts("Lista vazia!");
-    return;
+    fprintf(stderr, "Lista vazia!\n");
+    return EMPTY_LIST;
   }
 
   Node* aux = list->head;
@@ -119,4 +128,5 @@ void printList(const List* const list) {
     aux = aux->next;
   }
 
+  return SUCCESS;
 }
