@@ -26,13 +26,31 @@ Node* createNode() {
   return new_node; // depois do retorno, verificar se new_node é NULL
 }
 
-Node* findNode(const List* const list, const int index) {
+Node* findNode(const List* const list, const int id) {
+  if(list == NULL) return NULL; // lista nula
+  if(list->head == NULL) return NULL; // lista vazia
+  if(id < 0 || id > list->end->id) return NULL; // id menor que zero ou maior que o maior id da lista
+
   Node* aux = list->head;
-  while(aux != NULL && aux->id != index)
+  while(aux != NULL && aux->id != id)
     aux = aux->next;
 
-  return aux;
+  return aux; // atenção, aux pode ser NULL, verificar antes de sair usando >:[
 }
+
+// target_id = ID do nó alvo, logo essa função retornaria o nó anterior a ele
+Node* prevNode(const List* const list, const int target_id) {
+  if(list == NULL) return NULL; // lista nula
+  if(list->head == NULL) return NULL; // lista vazia
+  if(target_id <= 0 || target_id > list->end->id) return NULL; // id menor ou igual a zero ou maior que o maior id da lista
+
+  Node* aux = list->head;
+  while(aux != NULL && aux->next->id != target_id)
+    aux = aux->next;
+
+  return aux; // atenção, aux pode ser NULL, verificar antes de sair usando >:[
+}
+
 
 
 int addNode(List* const list, const char* msg) {
@@ -56,7 +74,7 @@ int addNode(List* const list, const char* msg) {
   }
   else { // node vai ser colocado na posição curr_id da lista
     //pegando o node anterior da posição que eu quero colocar meu novo node
-    Node* aux = findNode(list, list->curr_id - 1);
+    Node* aux = prevNode(list, list->curr_id);
     if(aux == NULL)
       return SEARCH_NODE_FAIL;
     
@@ -76,35 +94,43 @@ int pop(List* const list) {
   else if(list->head == NULL)
     return EMPTY_LIST;
 
-  list->curr_id = list->end->id; // salva o id do último nó, que será o id do próximo nó a ser adicionado
-  free(list->end);
+  Node* lastNode = list->end; // pega nó anterior ao último
+  Node* prev = prevNode(list, lastNode->id);
+  list->curr_id = lastNode->id; // salva o id do último nó, que será o id do próximo nó a ser adicionado
   
   if(list->head->next == NULL){
     list->end = NULL;
     list->head = NULL;
   }
   else{
-    //como dei free em list->end, tive que usar list->curr_id no lugar de list->end->id
-    Node* aux = findNode(list, list->curr_id - 1); // pega nó anterior ao último
-    if(aux == NULL)
+    if(prev == NULL)
       return SEARCH_NODE_FAIL;
 
-    aux->next = NULL;
-    list->end = aux;
+    prev->next = NULL;
+    list->end = prev;
   }
 
+  free(lastNode);
   --list->size;
 
   return SUCCESS;
 }
 
-int removeNode(List* const list, const int index) {
+int removeNode(List* const list, const int id) {
   if(list == NULL)
     return NULL_LIST;
   else if(list->head == NULL)
     return EMPTY_LIST;
-  else if(index < 0)
-    return INVALID_INDEX;
+  else if(id < 0 || id > list->end->id) // id menor que zero ou maior que o maior id da lista
+    return INVALID_ID;
+
+  // remover único nó da lista, ou remover último nó 
+  if(list->head->next == NULL || id == list->end->id)
+    return pop(list);
+  else {
+    // pega nó anterior do nó que voce quer remover
+    Node* aux = findNode(list, id - 1);
+  }
 
 
 
