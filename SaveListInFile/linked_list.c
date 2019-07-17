@@ -122,18 +122,32 @@ int removeNode(List* const list, const int id) {
   else if(id < 0 || id > list->end->id) // id menor que zero ou maior que o maior id da lista
     return INVALID_ID;
 
-  // remover único nó da lista, ou remover último nó 
-  if(list->head->next == NULL || id == list->end->id)
-    return pop(list);
-  else {
-    // pega nó anterior do nó que voce quer remover
-    Node* aux = findNode(list, id - 1);
+  Node* aux = list->head;
+  Node* prev = NULL;
+
+  while(aux != NULL && id != aux->id){
+    prev = aux;
+    aux = aux->next;
   }
 
+  // Nó não encontrado
+  if(aux == NULL)
+    return SEARCH_NODE_FAIL;
+  else if(aux == list->head)
+    list->head = aux->next;
+  else if(aux == list->end)
+    list->end = prev;
+  else
+    prev->next = aux->next; // prev só é NULL se aux == list->head, logo não tem necessidade de verificação
 
+  list->curr_id = id; // ID do próximo nó será o do nó recém excluído
+  --list->size;
 
+  if(prev != NULL && (list->size == 1 || aux == list->end) )
+    list->end = prev;
+
+  free(aux);
   return SUCCESS;
-
 }
 
 int printList(const List* const list) {
