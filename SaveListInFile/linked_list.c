@@ -94,23 +94,21 @@ int pop(List* const list) {
   else if(list->head == NULL)
     return EMPTY_LIST;
 
-  Node* lastNode = list->end; // pega nó anterior ao último
-  Node* prev = prevNode(list, lastNode->id);
-  list->curr_id = lastNode->id; // salva o id do último nó, que será o id do próximo nó a ser adicionado
+  list->curr_id = list->end->id;
+  Node* prev = prevNode(list, list->end->id);
   
-  if(list->head->next == NULL){
-    list->end = NULL;
+  free(list->end);
+
+  // Não existe nó prev, ou seja, só há 1 nó na lista
+  if(prev == NULL) {
     list->head = NULL;
-  }
-  else{
-    if(prev == NULL)
-      return SEARCH_NODE_FAIL;
-
+    list->end = NULL;
+  } 
+  else {
     prev->next = NULL;
-    list->end = prev;
+    list->end = prev;  
   }
 
-  free(lastNode);
   --list->size;
 
   return SUCCESS;
