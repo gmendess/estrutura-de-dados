@@ -3,7 +3,7 @@
 #include "util.h"
 #include "linked_list.c"
 
-int main(const int argc, const char** argv) {
+int main() {
 
   List* list = createList();
   if(!list) {
@@ -22,23 +22,28 @@ int main(const int argc, const char** argv) {
   printList(list);
 
   printf("\n\n\n%d --> %d\n", list->head->id, list->head->next->id);
-  removeNode(list, 0);
+  removeNode(list, 5);
   printf("%d --> %d\n", list->head->id, list->head->next->id);
-  removeNode(list, 1);
-  printf("%d --> %d\n", list->head->id, list->head->next->id);
-  removeNode(list, 2);
+  removeNode(list, 4);
   printf("%d --> %d\n", list->head->id, list->head->next->id);
   removeNode(list, 3);
   printf("%d --> %d\n", list->head->id, list->head->next->id);
-  removeNode(list, 4);
+  removeNode(list, 2);
+  printf("%d --> %d\n", list->head->id, list->head->next->id);
+  removeNode(list, 1);
   printf("%d -->\n", list->head->id);
 
   printf(" >>> %d\n", list->head->id);
-  removeNode(list, 5);
+  removeNode(list, 0);
 
 
   puts("-----");
   printList(list);
+
+  // hehe, tinha esquecido
+  free(list->head);
+  free(list->end);
+  free(list);
 
   return 0;
 }
