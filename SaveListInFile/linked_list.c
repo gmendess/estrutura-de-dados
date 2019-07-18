@@ -5,7 +5,7 @@
 
 List* createList() {
   
-  List* list = (List*) malloc( sizeof(List) );
+  List* list = (List*) calloc(1, sizeof(List));
   if(list != NULL) {
     list->size = 0;
     list->head = NULL;
@@ -17,10 +17,11 @@ List* createList() {
 
 Node* createNode() {
 
-  Node* new_node = (Node*) malloc( sizeof(Node) );
+  Node* new_node = (Node*) calloc(1, sizeof(Node));
   if(new_node != NULL) { 
     new_node->id = -1;
     new_node->next = NULL;
+    strcpy(new_node->buffer, "\0");
   }
 
   return new_node; // depois do retorno, verificar se new_node é NULL
@@ -135,18 +136,19 @@ int removeNode(List* const list, const int id) {
     return SEARCH_NODE_FAIL;
   else if(aux == list->head)
     list->head = aux->next;
-  else if(aux == list->end)
-    list->end = prev;
   else
     prev->next = aux->next; // prev só é NULL se aux == list->head, logo não tem necessidade de verificação
 
   list->curr_id = id; // ID do próximo nó será o do nó recém excluído
   --list->size;
 
-  if(prev != NULL && (list->size == 1 || aux == list->end) )
+  // por enquanto vai ficar essa gambiarrazinha
+  if((list->size == 0 || prev != NULL) && (list->size == 1 || aux == list->end))
     list->end = prev;
 
   free(aux);
+  // limpando o endereço que eles apontavam (só pra ficar tudo zerado no debug, ignore isso)
+  prev = aux = NULL;
   return SUCCESS;
 }
 
