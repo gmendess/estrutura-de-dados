@@ -16,9 +16,10 @@ int main() {
   addNode(list, "olá mundo! 2");
   addNode(list, "olá mundo! 3");
 
-  removeNode(list, 1);
-
-  addNode(list, "olá mundo! 4");
+  pop(list);
+  pop(list);
+  pop(list);
+  pop(list);
 
   printList(list);
 
