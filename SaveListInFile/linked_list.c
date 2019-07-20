@@ -44,7 +44,7 @@ int addNode(List* const list, const char* msg) {
   if(new_node == NULL)
     return CREATE_NODE_FAIL;
   
-  strcpy(new_node->buffer, msg); // copiando para o buffer do nó, a mensagem passada como argumento
+  strncpy(new_node->buffer, msg, sizeof(new_node->buffer)); // copiando para o buffer do nó, a mensagem passada como argumento
   if(list->head == NULL){ // verificando se a lista é vazia
     list->head = new_node;
     new_node->id = 0;
