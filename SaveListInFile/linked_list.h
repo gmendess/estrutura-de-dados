@@ -26,14 +26,9 @@ typedef struct list{
 List* createList();
 Node* createNode();
 int addNode(List* const list, const char* msg);
-Node* findNode(const List* const list, const int id);
+int push(List* const list, const char* msg); // adiciona um nó no final da lista, mesmo que ela possua 'buracos'
 
-// Essa função é parecida com a findNode, a diferença é que findNode retorna NULL caso não encontre o nó desejado,
-// logo, se eu usar ela para pegar o nó anterior com base no ID de um nó, talvez ela me retorne NULL, pois
-// não posso assumir que os IDs são consecutivos, ou seja, se eu quiser pegar o nó anterior ao nó de ID 5, eu teria 
-// que pegar o nó de ID 4, porém a lista pode estar dessa forma: 0 -> 1 -> 2 -> 5
-// Nela o nó 4 não existe, e findNode me retornaria NULL, já prevNode, retornaria o nó 2 
-// meudeus que explicação 
+Node* findNode(const List* const list, const int id);
 Node* prevNode(const List* const list, const int target_id); // deve ser usada apenas internamente
 
 
