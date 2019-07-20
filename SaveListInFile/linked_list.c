@@ -46,8 +46,8 @@ int addNode(List* const list, const char* msg) {
   
   strncpy(new_node->buffer, msg, sizeof(new_node->buffer)); // copiando para o buffer do nó, a mensagem passada como argumento
   if(list->head == NULL){ // verificando se a lista é vazia
-    list->head = new_node;
     new_node->id = 0;
+    list->head = new_node;
   }
   else{ // se não for, percorre a lista em busca do último nó, ou até encontrar um 'buraco'
     /* Explicação: um 'buraco' é quando a lista perde seu padrão de IDs, exemplo: 0 -> 1 -> 2 -> 4 -> 5
@@ -78,8 +78,10 @@ int push(List* const list, const char* msg) {
 
 
   // verificando se a lista está vazia
-  if(list->head == NULL)
+  if(list->head == NULL){
+    new_node->id = 0;
     list->head = new_node;
+  }
   else{
 
     Node* aux = list->head; // ponteiro auxiliar
