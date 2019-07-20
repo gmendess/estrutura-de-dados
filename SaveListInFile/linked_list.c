@@ -66,6 +66,36 @@ int addNode(List* const list, const char* msg) {
   return SUCCESS;
 }
 
+// adiciona um nó no final da lista, mesmo que ela possua 'buracos'
+int push(List* const list, const char* msg) {
+  if(list == NULL)
+    return NULL_LIST;
+
+  Node* new_node = createNode();
+  if(new_node == NULL) // verificando alocação do novo nó
+    return CREATE_NODE_FAIL;
+  strncpy(new_node->buffer, msg, sizeof(new_node->buffer)); // copia mensagem para o buffer do novo nó
+
+
+  // verificando se a lista está vazia
+  if(list->head == NULL)
+    list->head = new_node;
+  else{
+
+    Node* aux = list->head; // ponteiro auxiliar
+    
+    // percorre a lista até o último nó
+    while(aux->next != NULL)
+      aux = aux->next;
+
+    aux->next = new_node;
+    new_node->id = aux->id + 1;
+  }
+
+  ++list->size;
+  return SUCCESS;
+}
+
 // exclui último nó da lista
 int pop(List* const list) {
   if(list == NULL)
