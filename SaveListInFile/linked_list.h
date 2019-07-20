@@ -20,8 +20,6 @@ typedef struct node{
 
 typedef struct list{
   size_t size; // quantidade de nodes
-  int curr_id; // armazena o ID do próximo nó a ser adicionado
-  Node* end; // ponteiro pro último node. Fica mais fácil de acessar o final da lista
   Node* head; // ponteiro pro primeiro node
 }List;
 
