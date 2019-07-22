@@ -45,14 +45,19 @@ int addNode(List* const list, const char* msg) {
     return CREATE_NODE_FAIL;
   
   strncpy(new_node->buffer, msg, sizeof(new_node->buffer)); // copiando para o buffer do nó, a mensagem passada como argumento
-  if(list->head == NULL){ // verificando se a lista é vazia
+  if(list->head == NULL) { // verificando se a lista é vazia
+    new_node->id = 0;
+    list->head = new_node;
+  }
+  else if(list->head->id != 0) { // id do primeiro nó é diferente de 0, logo a lista tem um 'buraco' logo no início
+    new_node->next = list->head;
     new_node->id = 0;
     list->head = new_node;
   }
   else{ // se não for, percorre a lista em busca do último nó, ou até encontrar um 'buraco'
     /* Explicação: um 'buraco' é quando a lista perde seu padrão de IDs, exemplo: 0 -> 1 -> 2 -> 4 -> 5
        note que o nó após o 2 é o 4, logo há um buraco onde deveria estar o nó 3 */
-    
+
     Node* aux = list->head; // nó auxiliar para percorrer a lista
     while(aux->next != NULL && aux->next->id == aux->id + 1) // essa última condição verifica um buraco na lista
       aux = aux->next;
@@ -176,5 +181,26 @@ int printList(const List* const list) {
     aux = aux->next;
   }
 
+  return SUCCESS;
+}
+
+// eu poderia ter usado um loop chamando pop, mas se a lista for muito grande
+// vai gerar um overhead de chamadas de função
+int deleteList(List* list) {
+  if(list == NULL)
+    return NULL_LIST;
+  else if(list->head == NULL)
+    return EMPTY_LIST;
+
+  Node* aux = list->head;
+  Node* prev = NULL;
+  // percorre a lista com aux e libera memória de prev
+  while(aux != NULL) {
+    prev = aux;
+    aux = aux->next;
+    free(prev);
+  }
+
+  free(list);
   return SUCCESS;
 }
