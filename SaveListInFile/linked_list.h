@@ -23,17 +23,31 @@ typedef struct list{
   Node* head; // ponteiro pro primeiro node
 }List;
 
+// aloca e retorna um ponteiro para uma List alocada na memória
 List* createList();
+
+// aloca e retorna um ponteiro para um Node alocado na memória
 Node* createNode();
+
+// libera memória de todos os nós da lista e da própria lista
+int deleteList(List* list);
+
+// adiciona um novo nó no final ou até achar um "buraco" na lista 
 int addNode(List* const list, const char* msg);
-int push(List* const list, const char* msg); // adiciona um nó no final da lista, mesmo que ela possua 'buracos'
+
+// adiciona um nó no final da lista, mesmo que ela possua 'buracos'
+int push(List* const list, const char* msg);
 
 Node* findNode(const List* const list, const int id);
 Node* prevNode(const List* const list, const int target_id); // deve ser usada apenas internamente
 
-
+// imprime todos os nós da lista em ordem
 int printList(const List* const list);
+
+// remove o último nó da lista
 int pop(List* const list);
+
+// remove o nó de determinado `id`
 int removeNode(List* const list, const int id);
 
 #endif
