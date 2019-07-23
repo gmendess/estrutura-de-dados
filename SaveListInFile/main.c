@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdio_ext.h>
 #include "util.h"
-#include "linked_list.c"
+#include "linked_list.h"
 
 int main() {
 
@@ -11,21 +12,24 @@ int main() {
     return EXIT_FAILURE;
   }  
 
-  addNode(list, "olá mundo! 0");
-  addNode(list, "olá mundo! 1");
-  addNode(list, "olá mundo! 2");
-  addNode(list, "olá mundo! 3");
+  FILE* file = openFile();
 
-  pop(list);
-  pop(list);
-  pop(list);
-  pop(list);
+  char buffer[20];
+  for(int x = 0; x < 20; x++){
+    sprintf(buffer, "no numero %d", x);
+    addNode(list, buffer);
+  }
+
+  for(int x = 5; x < 15; x++)
+    removeNode(list, x);
+
+
+  exportList(file, list);
 
   printList(list);
 
-  // hehe, tinha esquecido
-  free(list->head);
-  free(list);
+  deleteList(&list);
+  fclose(file);
 
   return 0;
 }
