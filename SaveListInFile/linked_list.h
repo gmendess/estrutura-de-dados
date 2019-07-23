@@ -30,7 +30,7 @@ List* createList();
 Node* createNode();
 
 // libera memória de todos os nós da lista e da própria lista
-int deleteList(List* list);
+int deleteList(List** listPtr);
 
 // adiciona um novo nó no final ou até achar um "buraco" na lista 
 int addNode(List* const list, const char* msg);
