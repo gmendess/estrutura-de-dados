@@ -186,7 +186,8 @@ int printList(const List* const list) {
 
 // eu poderia ter usado um loop chamando pop, mas se a lista for muito grande
 // vai gerar um overhead de chamadas de função
-int deleteList(List* list) {
+int deleteList(List** listPtr) {
+  List* list = *listPtr;
   if(list == NULL)
     return NULL_LIST;
   else if(list->head == NULL)
@@ -201,6 +202,9 @@ int deleteList(List* list) {
     free(prev);
   }
 
+  (*listPtr)->head = prev = aux = NULL;  
   free(list);
+  *listPtr = NULL;
+
   return SUCCESS;
 }
