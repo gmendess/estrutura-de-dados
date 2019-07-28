@@ -7,9 +7,10 @@
   Funções pra manipulação do arquivo binário
 */
 
-#define OPEN_FAIL    10
-#define NULL_FILE    11
-#define INVALID_FILE 12
+#define OPEN_FAIL        10
+#define NULL_FILE        11
+#define INVALID_FILE     12
+#define EXPORT_NODE_FAIL 13
 
 // abre (se não existe, é criado) um arquivo binário no mode rb e retorna ponteiro para FILE
 FILE* openFile();
