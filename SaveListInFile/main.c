@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdio_ext.h>
-#include "util.h"
-#include "linked_list.h"
+#include "util.c"
+#include "linked_list.c"
 
 int main() {
 
@@ -13,21 +13,18 @@ int main() {
   }  
 
   FILE* file = openFile();
-
-  char buffer[20];
-  for(int x = 0; x < 20; x++){
-    sprintf(buffer, "no numero %d", x);
-    addNode(list, buffer);
+  if(!file) {
+    fprintf(stderr, "Ocorreu um erro ao abrir o arquivo!\n");
+    return EXIT_FAILURE
   }
 
-  for(int x = 5; x < 15; x++)
-    removeNode(list, x);
-
-
-  exportList(file, list);
-
+  // importando lista armazenada no arquivo binário para minha lista
+  importList(file, list);
+  
+  // imprimindo conteúdo da lista na tela
   printList(list);
 
+  // liberando memória da lista e fechando arquivo
   deleteList(&list);
   fclose(file);
 
