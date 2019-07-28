@@ -15,7 +15,7 @@ int main() {
   FILE* file = openFile();
   if(!file) {
     fprintf(stderr, "Ocorreu um erro ao abrir o arquivo!\n");
-    return EXIT_FAILURE
+    return EXIT_FAILURE;
   }
 
   // importando lista armazenada no arquivo binário para minha lista
