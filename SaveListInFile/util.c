@@ -55,7 +55,8 @@ int importList(FILE* file, List* const list) {
   list->head = new_node;
   Node* aux = list->head; // nó auxiliar de list->head, ele que percorrerá a lista linkando cada nó no próximo
 
-  while(1) {
+  #define ever (;;)
+  for ever { // KKKKKKKKKKKKKKK, meodeos, genial isso
     new_node = createNode(); // aloca memória para outro nó e retorna o ptr para new_node
     if(new_node == NULL) //verificando se alocação ocorreu com sucesso
       return CREATE_NODE_FAIL; // retorna código de erro
