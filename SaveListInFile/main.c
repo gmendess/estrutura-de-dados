@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdio_ext.h>
-#include "util.c"
-#include "linked_list.c"
+#include "util.h"
+#include "linked_list.h"
 
 int main() {
 
