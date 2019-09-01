@@ -47,11 +47,12 @@ int run(Simpletron* simpletron) {
     exit(NULL_POINTER_ERROR);
   }
 
-  puts("=-=-=-=-=-=-=-=-=");
-
   size_t operand = 0;
   size_t operation = 0;
   size_t total_instructions = simpletron->total_instructions;
+
+  printf("\n\n%ld INSTRUÇÕES LIDAS COM SUCESSO. EXECUTANDO INSTRUÇÕES!\n", total_instructions);
+  puts("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 
   /* Essa variável só existe pra fins de legibilidade. Uso ela ao invés de ter que 
    * ficar escrevendo `simpletron->curr_instruction`. É um ponteiro, pois curr_instruction
