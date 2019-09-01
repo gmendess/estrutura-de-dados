@@ -12,8 +12,8 @@ Simpletron* createSimpletron() {
     simpletron->total_instructions = 0;
     simpletron->accumulator = 0;
 
-    simpletron->curr_instrucion = 0000;
-    simpletron->curr_instrucion_index = 0;
+    simpletron->curr_instruction = 0000;
+    simpletron->curr_instruction_index = 0;
     
     memset(simpletron->memory, 0, sizeof(simpletron->memory));
   }
@@ -54,14 +54,14 @@ int run(Simpletron* simpletron) {
   size_t total_instructions = simpletron->total_instructions;
 
   /* Essa variável só existe pra fins de legibilidade. Uso ela ao invés de ter que 
-   * ficar escrevendo `simpletron->curr_instrucion`. É um ponteiro, pois curr_instruction
+   * ficar escrevendo `simpletron->curr_instruction`. É um ponteiro, pois curr_instruction
    * pode sofrer alterações na operações de controle de fluxo, como o branch */
-  size_t* index = &(simpletron->curr_instrucion_index);
+  size_t* index = &(simpletron->curr_instruction_index);
 
   for(; *index < total_instructions; (*index)++) {
-    simpletron->curr_instrucion = simpletron->memory[*index];
-    operand = parseOperand(simpletron->curr_instrucion);
-    operation = parseOperation(simpletron->curr_instrucion);
+    simpletron->curr_instruction = simpletron->memory[*index];
+    operand = parseOperand(simpletron->curr_instruction);
+    operation = parseOperation(simpletron->curr_instruction);
 
     // Switch-case para identificar a operação que deve ser realizada (ver simpletron.h para mais detalhes sobre as operações)
     switch (operation) {
@@ -148,17 +148,17 @@ void branch(Simpletron* simpletron, const int operand) {
   // para a posição 3 do simpletron. Contudo, no for-loop, *index será incrementado, logo a posição passará
   // a ser 4. Dessa forma, para a posição ser correta, é necessário decrementar operand em 1, assim (3 - 1) = 2,
   // que quando incrementado fica 3.
-  simpletron->curr_instrucion_index = operand - 1;
+  simpletron->curr_instruction_index = operand - 1;
 }
 
 void branchNeg(Simpletron* simpletron, const int operand) {
   if(simpletron->accumulator < 0)
-    simpletron->curr_instrucion_index = operand - 1;
+    simpletron->curr_instruction_index = operand - 1;
 }
 
 void branchZero(Simpletron* simpletron, const int operand) {
   if(simpletron->accumulator == 0)
-    simpletron->curr_instrucion_index = operand - 1;
+    simpletron->curr_instruction_index = operand - 1;
 }
 
 void memoryDump(Simpletron* simpletron) {

@@ -7,8 +7,8 @@ typedef struct _simpletron {
   size_t memory[SIMPLETRON_MEMORY]; // memória do simpletron
   ssize_t accumulator; 
   size_t total_instructions;
-  size_t curr_instrucion;
-  size_t curr_instrucion_index;
+  size_t curr_instruction;
+  size_t curr_instruction_index;
   size_t return_code; // código de retorno do simpletron. Por padrão é 0, mas pode ser reconfigurado pelo HALT
 } Simpletron;
 
