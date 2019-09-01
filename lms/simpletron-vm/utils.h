@@ -5,7 +5,7 @@
 ** Aqui é onde estão alguns typedefs e macros importantes 
 */
 
-#define fast_int register int
+typedef long int ssize_t;
 
 #define SIMPLETRON_MEMORY 1000 // memória máxima do simpletron
 #define MAX_FGETS_INPUT 10 // quantidade máxima de bytes lidos por FGETS
