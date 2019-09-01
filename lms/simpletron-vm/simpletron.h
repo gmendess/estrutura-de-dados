@@ -45,6 +45,11 @@ void write(Simpletron* simpletron, const int operand);
 void load(Simpletron* simpletron, const int operand);
 void store(Simpletron* simpletron, const int operand);
 
+void add(Simpletron* simpletron, const int operand);
+void sub(Simpletron* simpletron, const int operand);
+void _div(Simpletron* simpletron, const int operand);
+void _mul(Simpletron* simpletron, const int operand);
+
 
 
 
