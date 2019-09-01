@@ -40,6 +40,7 @@ void run(Simpletron* simpletron);
 
 // Protótipos das operações que o Simpletron pode realizar
 void read(Simpletron* simpletron, const int operand); 
+void write(Simpletron* simpletron, const int operand); 
 
 
 
