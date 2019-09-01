@@ -27,12 +27,7 @@ int exportList(FILE* file, const List* const list) {
   Node* aux = list->head;
   size_t bytes = 0; // usado para guardar a quantidade de bytes gravados no arquivos
   while(aux != NULL) {
-    bytes = fwrite(aux, sizeof(Node), 1, file);
-
-    // verificando se os bytes gravados correspondem com o tamanho de um Node
-    if(bytes != sizeof(Node)) 
-      return EXPORT_NODE_FAIL;
-    
+    bytes = fwrite(aux, sizeof(Node), 1, file);    
     aux = aux->next;
   }
   return SUCCESS;
