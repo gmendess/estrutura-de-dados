@@ -13,7 +13,6 @@ Simpletron* createSimpletron() {
     simpletron->accumulator = 0;
 
     simpletron->curr_instrucion = 0;
-    simpletron->curr_operand = 0;
     
     memset(simpletron->memory, 0, sizeof(simpletron->memory));
   }
