@@ -44,6 +44,13 @@ void loadInstructions(Simpletron* simpletron) {
 }
 
 void run(Simpletron* simpletron) {
+  if(!simpletron){
+    fprintf(stderr, "Erro! Ponteiro nulo passado à run.\n");
+    exit(NULL_POINTER_ERROR);
+  }
+
+  puts("=-=-=-=-=-=-=-=-=");
+
   size_t operand = 0;
   size_t operation = 0;
   size_t total_instructions = simpletron->total_instructions;
@@ -57,12 +64,21 @@ void run(Simpletron* simpletron) {
     // Switch-case para identificar a operação que deve ser realizada (ver simpletron.h para mais detalhes sobre as operações)
     switch (operation) {
     case READ:
+      read(simpletron, operand);
+      printf("%ld\n", simpletron->memory[operand]);
       break;
     
     default:
-      fprintf(stderr, "Operação %ld inválida na posição %ld da memória!", operation, )
+      fprintf(stderr, "Operação %ld inválida na posição %d da memória!", operation, i);
       break;
     } // end of switch
 
   } // end of for-loop
+}
+
+/***********************************************************************/
+
+void read(Simpletron* simpletron, const int operand) {
+  printf("? ");
+  scanf("%ld", &simpletron->memory[operand]);
 }
