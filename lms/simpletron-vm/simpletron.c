@@ -34,6 +34,7 @@ void loadInstructions(Simpletron* simpletron) {
   }
 
   for(int i = 0; i < SIMPLETRON_MEMORY / 2; i++) {
+    printf("%0*d? ", (int)sizeof(i), i);
     if(!fgets(buffer, MAX_FGETS_INPUT - 1, stdin))
       break; // encerra o loop caso a entrada seja um EOF
 
@@ -43,7 +44,7 @@ void loadInstructions(Simpletron* simpletron) {
   }
 }
 
-void run(Simpletron* simpletron) {
+int run(Simpletron* simpletron) {
   if(!simpletron){
     fprintf(stderr, "Erro! Ponteiro nulo passado à run.\n");
     exit(NULL_POINTER_ERROR);
@@ -56,8 +57,13 @@ void run(Simpletron* simpletron) {
   size_t total_instructions = simpletron->total_instructions;
   size_t instruction = 0;
 
-  for(fast_int i = 0; i < total_instructions; i++){
-    instruction = simpletron->memory[i];
+  /* Essa variável só existe pra fins de legibilidade. Uso ela ao invés de ter que 
+   * ficar escrevendo `simpletron->curr_instrucion`. É um ponteiro, pois curr_instruction
+   * pode sofrer alterações na operações de controle de fluxo, como o branch */
+  size_t* index = &(simpletron->curr_instrucion);
+
+  for(; *index < total_instructions; (*index)++){
+    instruction = simpletron->memory[*index];
     operand = parseOperand(instruction);
     operation = parseOperation(instruction);
 
@@ -87,12 +93,26 @@ void run(Simpletron* simpletron) {
     case MUL:
       _mul(simpletron, operand);
       break;
+    case BRANCH:
+      branch(simpletron, operand);
+      break;
+    case BRANCHNEG:
+      branchNeg(simpletron, operand);
+      break;
+    case BRANCHZERO:
+      branchZero(simpletron, operand);
+      break;
+    case HALT:
+      halt(operand);
+      break;
     default:
-      fprintf(stderr, "Operação %ld inválida na posição %d da memória!\n", operation, i);
+      fprintf(stderr, "Operação %ld inválida na posição %ld da memória!\n", operation, *index);
       break;
     } // end of switch
 
   } // end of for-loop
+
+  return EXIT_FAILURE; // NUNCA DEVE CHEGAR AQUI. RUN DEVE TERMINAR ATRAVÉS DE UM HALT
 }
 
 /***********************************************************************/
@@ -133,4 +153,22 @@ void _div(Simpletron* simpletron, const int operand) {
 
 void _mul(Simpletron* simpletron, const int operand) {
   simpletron->accumulator *= simpletron->memory[operand];
+}
+
+void branch(Simpletron* simpletron, const int operand) {
+  // Digamos que operando seja igual a 3, isso significa que eu quero transferir o fluxo do meu programa
+  // para a posição 3 do simpletron. Contudo, no for-loop, *index será incrementado, logo a posição passará
+  // a ser 4. Dessa forma, para a posição ser correta, é necessário decrementar operand em 1, assim (3 - 1) = 2,
+  // que quando incrementado fica 3.
+  simpletron->curr_instrucion = operand - 1;
+}
+
+void branchNeg(Simpletron* simpletron, const int operand) {
+  if(simpletron->accumulator < 0)
+    simpletron->curr_instrucion = operand - 1;
+}
+
+void branchZero(Simpletron* simpletron, const int operand) {
+  if(simpletron->accumulator == 0)
+    simpletron->curr_instrucion = operand - 1;
 }
