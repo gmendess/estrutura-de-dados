@@ -8,6 +8,8 @@ typedef struct _simpletron {
   ssize_t accumulator; 
   size_t total_instructions;
   size_t curr_instrucion;
+  size_t curr_instrucion_index;
+  size_t return_code; // código de retorno do simpletron. Por padrão é 0, mas pode ser reconfigurado pelo HALT
 } Simpletron;
 
 // Enum com todas as operações que podem ser executadas pelo Simpletron
@@ -25,6 +27,8 @@ typedef enum _simpletron_operations {
   SUB, // subtrai do acumulador um valor contido na memória do Simpletron
   DIV, // divide o acumulador por um valor contido na memória do Simpletron
   MUL, // multiplica o acumulador por um valor contido na memória do Simpletron
+  MOD, // acha o resto da divisão do acumulador por um valor contido na memória do Simpletron
+  EXP, // eleva o acumulador por um valor contido na memória do Simpletron
 
   /* Operações de controle de fluxo */
   BRANCH = 40, // transfere o fluxo de execução para um local da memória do Simpletron
@@ -38,7 +42,7 @@ void loadInstructions(Simpletron* simpletron);
 int run(Simpletron* simpletron);
 
 #define parseOperand(instruction) ((instruction) % operand_module)
-#define parseOperation(instruction) ((instruction) % operation_module)
+#define parseOperation(instruction) ((instruction) / operation_module)
 
 // Protótipos das operações que o Simpletron pode realizar
 void read(Simpletron* simpletron, const int operand); 
@@ -51,12 +55,14 @@ void add(Simpletron* simpletron, const int operand);
 void sub(Simpletron* simpletron, const int operand);
 void _div(Simpletron* simpletron, const int operand);
 void _mul(Simpletron* simpletron, const int operand);
+void mod(Simpletron* simpletron, const int operand);
+void _exp(Simpletron* simpletron, const int operand);
 
 void branch(Simpletron* simpletron, const int operand);
 void branchNeg(Simpletron* simpletron, const int operand);
 void branchZero(Simpletron* simpletron, const int operand);
-// HALT é apenas um alias para um return
-#define halt(ret) return(ret)
+// HALT é apenas um alias para configurar return_code e dar return
+#define halt(ret) simpletron->return_code = ret; return(ret)
 
 // imprime a memória do Simpletron, além de algumas informações adicionais
 void memoryDump(Simpletron* simpletron);
