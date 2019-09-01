@@ -12,7 +12,8 @@ Simpletron* createSimpletron() {
     simpletron->total_instructions = 0;
     simpletron->accumulator = 0;
 
-    simpletron->curr_instrucion = 0;
+    simpletron->curr_instrucion = 0000;
+    simpletron->curr_instrucion_index = 0;
     
     memset(simpletron->memory, 0, sizeof(simpletron->memory));
   }
@@ -55,7 +56,7 @@ int run(Simpletron* simpletron) {
   /* Essa variável só existe pra fins de legibilidade. Uso ela ao invés de ter que 
    * ficar escrevendo `simpletron->curr_instrucion`. É um ponteiro, pois curr_instruction
    * pode sofrer alterações na operações de controle de fluxo, como o branch */
-  size_t* index = &(simpletron->curr_instrucion);
+  size_t* index = &(simpletron->curr_instrucion_index);
 
   for(; *index < total_instructions; (*index)++) {
     simpletron->curr_instrucion = simpletron->memory[*index];
@@ -74,6 +75,8 @@ int run(Simpletron* simpletron) {
       case SUB:        sub(simpletron, operand);         break;
       case DIV:        _div(simpletron, operand);        break;
       case MUL:        _mul(simpletron, operand);        break;
+      case MOD:        mod(simpletron, operand);         break;
+      case EXP:        _exp(simpletron, operand);        break;
       
       case BRANCH:     branch(simpletron, operand);      break;
       case BRANCHNEG:  branchNeg(simpletron, operand);   break;
@@ -130,22 +133,32 @@ void _mul(Simpletron* simpletron, const int operand) {
   simpletron->accumulator *= simpletron->memory[operand];
 }
 
+void mod(Simpletron* simpletron, const int operand) {
+  simpletron->accumulator %= simpletron->memory[operand];
+}
+
+void _exp(Simpletron* simpletron, const int operand) {
+  ssize_t aux = simpletron->accumulator;
+  for(size_t i = 1; i < simpletron->memory[operand]; i++)
+    simpletron->accumulator *= aux;
+}
+
 void branch(Simpletron* simpletron, const int operand) {
   // Digamos que operando seja igual a 3, isso significa que eu quero transferir o fluxo do meu programa
   // para a posição 3 do simpletron. Contudo, no for-loop, *index será incrementado, logo a posição passará
   // a ser 4. Dessa forma, para a posição ser correta, é necessário decrementar operand em 1, assim (3 - 1) = 2,
   // que quando incrementado fica 3.
-  simpletron->curr_instrucion = operand - 1;
+  simpletron->curr_instrucion_index = operand - 1;
 }
 
 void branchNeg(Simpletron* simpletron, const int operand) {
   if(simpletron->accumulator < 0)
-    simpletron->curr_instrucion = operand - 1;
+    simpletron->curr_instrucion_index = operand - 1;
 }
 
 void branchZero(Simpletron* simpletron, const int operand) {
   if(simpletron->accumulator == 0)
-    simpletron->curr_instrucion = operand - 1;
+    simpletron->curr_instrucion_index = operand - 1;
 }
 
 void memoryDump(Simpletron* simpletron) {
