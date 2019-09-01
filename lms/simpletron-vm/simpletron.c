@@ -4,9 +4,6 @@
 #include "simpletron.h"
 #include "utils.h"
 
-#define parseOperand(instruction) ((instruction) % operand_module)
-#define parseOperation(instruction) ((instruction) / operation_module)
-
 // Cria e aloca memória para um ponteiro para um objeto de simpletron.
 // Inicializa seus membros com um valor padrão e retorna o ponteiro
 Simpletron* createSimpletron() {
@@ -28,7 +25,7 @@ void loadInstructions(Simpletron* simpletron) {
   char buffer[MAX_FGETS_INPUT];
   size_t instruction = 0;
 
-  if(!simpletron){
+  if(!simpletron) {
     fprintf(stderr, "Erro! Ponteiro nulo passado à loadInstructions.\n");
     exit(NULL_POINTER_ERROR);
   }
@@ -45,7 +42,7 @@ void loadInstructions(Simpletron* simpletron) {
 }
 
 int run(Simpletron* simpletron) {
-  if(!simpletron){
+  if(!simpletron) {
     fprintf(stderr, "Erro! Ponteiro nulo passado à run.\n");
     exit(NULL_POINTER_ERROR);
   }
@@ -62,7 +59,7 @@ int run(Simpletron* simpletron) {
    * pode sofrer alterações na operações de controle de fluxo, como o branch */
   size_t* index = &(simpletron->curr_instrucion);
 
-  for(; *index < total_instructions; (*index)++){
+  for(; *index < total_instructions; (*index)++) {
     instruction = simpletron->memory[*index];
     operand = parseOperand(instruction);
     operation = parseOperation(instruction);
@@ -83,7 +80,7 @@ int run(Simpletron* simpletron) {
       case BRANCH:     branch(simpletron, operand);      break;
       case BRANCHNEG:  branchNeg(simpletron, operand);   break;
       case BRANCHZERO: branchZero(simpletron, operand);  break;
-      case HALT:       halt(operand);                    break;
+      case HALT:       halt(operand);                    break; // a função sempre deve retornar através desse halt
       
       default:
         fprintf(stderr, "Operação %ld inválida na posição %ld da memória!\n", operation, *index);
