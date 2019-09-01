@@ -38,6 +38,9 @@ Simpletron* createSimpletron();
 void loadInstructions(Simpletron* simpletron);
 void run(Simpletron* simpletron);
 
+// Protótipos das operações que o Simpletron pode realizar
+void read(Simpletron* simpletron, const int operand); 
+
 
 
 
