@@ -58,6 +58,9 @@ void branchZero(Simpletron* simpletron, const int operand);
 // HALT é apenas um alias para um return
 #define halt(ret) return(ret)
 
+// imprime a memória do Simpletron, além de algumas informações adicionais
+void memoryDump(Simpletron* simpletron);
+
 
 
 
