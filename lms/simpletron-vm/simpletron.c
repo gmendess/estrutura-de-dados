@@ -147,3 +147,22 @@ void branchZero(Simpletron* simpletron, const int operand) {
   if(simpletron->accumulator == 0)
     simpletron->curr_instrucion = operand - 1;
 }
+
+void memoryDump(Simpletron* simpletron) {
+  if(!simpletron) {
+    fprintf(stderr, "Erro! Ponteiro nulo passado à memoryDump.\n");
+    exit(NULL_POINTER_ERROR);
+  }
+
+  int *memory = (int*) simpletron->memory;
+
+  for(register size_t i = 0; i < SIMPLETRON_MEMORY; i++) {
+    printf("%04ld ", simpletron->memory[i]);
+    
+    if((i + 1) % 14 == 0)
+      putchar('\n');
+  
+  }
+  putchar('\n');
+
+}
