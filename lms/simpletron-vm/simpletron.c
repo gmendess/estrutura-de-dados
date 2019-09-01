@@ -69,30 +69,22 @@ int run(Simpletron* simpletron) {
 
     // Switch-case para identificar a operação que deve ser realizada (ver simpletron.h para mais detalhes sobre as operações)
     switch (operation) {
-      case READ:
-        read(simpletron, operand);       break;
-      case WRITE:
-        write(simpletron, operand);      break;
-      case LOAD:
-        load(simpletron, operand);       break;
-      case STORE:
-        store(simpletron, operand);      break;
-      case ADD:
-        add(simpletron, operand);        break;
-      case SUB:
-        sub(simpletron, operand);        break;
-      case DIV:
-        _div(simpletron, operand);       break;
-      case MUL:
-        _mul(simpletron, operand);       break;
-      case BRANCH:
-        branch(simpletron, operand);     break;
-      case BRANCHNEG:
-        branchNeg(simpletron, operand);  break;
-      case BRANCHZERO:
-        branchZero(simpletron, operand); break;
-      case HALT:
-        halt(operand);                   break;
+      case READ:       read(simpletron, operand);        break;
+      case WRITE:      write(simpletron, operand);       break;
+      
+      case LOAD:       load(simpletron, operand);        break;
+      case STORE:      store(simpletron, operand);       break;
+      
+      case ADD:        add(simpletron, operand);         break;
+      case SUB:        sub(simpletron, operand);         break;
+      case DIV:        _div(simpletron, operand);        break;
+      case MUL:        _mul(simpletron, operand);        break;
+      
+      case BRANCH:     branch(simpletron, operand);      break;
+      case BRANCHNEG:  branchNeg(simpletron, operand);   break;
+      case BRANCHZERO: branchZero(simpletron, operand);  break;
+      case HALT:       halt(operand);                    break;
+      
       default:
         fprintf(stderr, "Operação %ld inválida na posição %ld da memória!\n", operation, *index);
         break;
