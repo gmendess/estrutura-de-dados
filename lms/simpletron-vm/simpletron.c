@@ -72,6 +72,9 @@ void run(Simpletron* simpletron) {
     case LOAD:
       load(simpletron, operand);
       break;
+    case STORE:
+      store(simpletron, operand);
+      break;
     default:
       fprintf(stderr, "Operação %ld inválida na posição %d da memória!\n", operation, i);
       break;
@@ -93,4 +96,8 @@ void write(Simpletron* simpletron, const int operand) {
 
 void load(Simpletron* simpletron, const int operand) {
   simpletron->accumulator = simpletron->memory[operand];
+}
+
+void store(Simpletron* simpletron, const int operand) {
+  simpletron->memory[operand] = simpletron->accumulator;
 }
