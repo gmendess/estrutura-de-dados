@@ -38,6 +38,9 @@ Simpletron* createSimpletron();
 void loadInstructions(Simpletron* simpletron);
 int run(Simpletron* simpletron);
 
+#define parseOperand(instruction) ((instruction) % operand_module)
+#define parseOperation(instruction) ((instruction) / operation_module)
+
 // Protótipos das operações que o Simpletron pode realizar
 void read(Simpletron* simpletron, const int operand); 
 void write(Simpletron* simpletron, const int operand); 
