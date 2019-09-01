@@ -42,6 +42,7 @@ void run(Simpletron* simpletron);
 void read(Simpletron* simpletron, const int operand); 
 void write(Simpletron* simpletron, const int operand); 
 
+void load(Simpletron* simpletron, const int operand);
 
 
 
