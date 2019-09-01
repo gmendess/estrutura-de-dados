@@ -75,6 +75,18 @@ void run(Simpletron* simpletron) {
     case STORE:
       store(simpletron, operand);
       break;
+    case ADD:
+      add(simpletron, operand);
+      break;
+    case SUB:
+      sub(simpletron, operand);
+      break;
+    case DIV:
+      _div(simpletron, operand);
+      break;
+    case MUL:
+      _mul(simpletron, operand);
+      break;
     default:
       fprintf(stderr, "Operação %ld inválida na posição %d da memória!\n", operation, i);
       break;
@@ -100,4 +112,25 @@ void load(Simpletron* simpletron, const int operand) {
 
 void store(Simpletron* simpletron, const int operand) {
   simpletron->memory[operand] = simpletron->accumulator;
+}
+
+void add(Simpletron* simpletron, const int operand) {
+  simpletron->accumulator += simpletron->memory[operand];
+}
+
+void sub(Simpletron* simpletron, const int operand) {
+  simpletron->accumulator -= simpletron->memory[operand];
+}
+
+void _div(Simpletron* simpletron, const int operand) {
+  size_t _operand = simpletron->memory[operand];
+  if(_operand == 0) {
+    fprintf(stderr, "Erro: divisão por zero! Falha ao dividir %ld por 0.\n", simpletron->accumulator);
+    exit(ZERO_DIVISION_ERROR);
+  }
+  simpletron->accumulator /= _operand;
+}
+
+void _mul(Simpletron* simpletron, const int operand) {
+  simpletron->accumulator *= simpletron->memory[operand];
 }
