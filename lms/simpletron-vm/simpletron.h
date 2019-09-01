@@ -5,7 +5,7 @@
 
 typedef struct _simpletron {
   size_t memory[SIMPLETRON_MEMORY]; // memória do simpletron
-  size_t accumulator; 
+  ssize_t accumulator; // ssize_t = long int
   size_t total_instructions;
   size_t curr_instrucion;
   size_t curr_operand;
@@ -36,7 +36,7 @@ typedef enum _simpletron_operations {
 
 Simpletron* createSimpletron();
 void loadInstructions(Simpletron* simpletron);
-void run(Simpletron* simpletron);
+int run(Simpletron* simpletron);
 
 // Protótipos das operações que o Simpletron pode realizar
 void read(Simpletron* simpletron, const int operand); 
@@ -50,6 +50,11 @@ void sub(Simpletron* simpletron, const int operand);
 void _div(Simpletron* simpletron, const int operand);
 void _mul(Simpletron* simpletron, const int operand);
 
+void branch(Simpletron* simpletron, const int operand);
+void branchNeg(Simpletron* simpletron, const int operand);
+void branchZero(Simpletron* simpletron, const int operand);
+// HALT é apenas um alias para um return
+#define halt(ret) return(ret)
 
 
 
