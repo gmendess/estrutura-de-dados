@@ -65,9 +65,10 @@ void run(Simpletron* simpletron) {
     switch (operation) {
     case READ:
       read(simpletron, operand);
-      printf("%ld\n", simpletron->memory[operand]);
       break;
-    
+    case WRITE:
+      write(simpletron, operand);
+      break;
     default:
       fprintf(stderr, "Operação %ld inválida na posição %d da memória!", operation, i);
       break;
@@ -81,4 +82,8 @@ void run(Simpletron* simpletron) {
 void read(Simpletron* simpletron, const int operand) {
   printf("? ");
   scanf("%ld", &simpletron->memory[operand]);
+}
+
+void write(Simpletron* simpletron, const int operand) {
+  printf("> %ld\n", simpletron->memory[operand]);
 }
