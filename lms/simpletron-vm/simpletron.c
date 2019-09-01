@@ -51,7 +51,6 @@ int run(Simpletron* simpletron) {
   size_t operand = 0;
   size_t operation = 0;
   size_t total_instructions = simpletron->total_instructions;
-  size_t instruction = 0;
 
   /* Essa variável só existe pra fins de legibilidade. Uso ela ao invés de ter que 
    * ficar escrevendo `simpletron->curr_instrucion`. É um ponteiro, pois curr_instruction
@@ -59,9 +58,9 @@ int run(Simpletron* simpletron) {
   size_t* index = &(simpletron->curr_instrucion);
 
   for(; *index < total_instructions; (*index)++) {
-    instruction = simpletron->memory[*index];
-    operand = parseOperand(instruction);
-    operation = parseOperation(instruction);
+    simpletron->curr_instrucion = simpletron->memory[*index];
+    operand = parseOperand(simpletron->curr_instrucion);
+    operation = parseOperation(simpletron->curr_instrucion);
 
     // Switch-case para identificar a operação que deve ser realizada (ver simpletron.h para mais detalhes sobre as operações)
     switch (operation) {
