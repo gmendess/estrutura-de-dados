@@ -8,7 +8,6 @@ typedef struct _simpletron {
   ssize_t accumulator; 
   size_t total_instructions;
   size_t curr_instrucion;
-  size_t curr_operand;
 } Simpletron;
 
 // Enum com todas as operações que podem ser executadas pelo Simpletron
