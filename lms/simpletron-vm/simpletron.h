@@ -5,7 +5,7 @@
 
 typedef struct _simpletron {
   size_t memory[SIMPLETRON_MEMORY]; // memória do simpletron
-  ssize_t accumulator; // ssize_t = long int
+  ssize_t accumulator; 
   size_t total_instructions;
   size_t curr_instrucion;
   size_t curr_operand;
@@ -39,7 +39,7 @@ void loadInstructions(Simpletron* simpletron);
 int run(Simpletron* simpletron);
 
 #define parseOperand(instruction) ((instruction) % operand_module)
-#define parseOperation(instruction) ((instruction) / operation_module)
+#define parseOperation(instruction) ((instruction) % operation_module)
 
 // Protótipos das operações que o Simpletron pode realizar
 void read(Simpletron* simpletron, const int operand); 
