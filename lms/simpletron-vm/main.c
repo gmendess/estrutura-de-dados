@@ -7,6 +7,9 @@ int main() {
   Simpletron* simpletron = createSimpletron();
   loadInstructions(simpletron);
   run(simpletron);
+  memoryDump(simpletron);
+
+  free(simpletron);
 
 
   return EXIT_SUCCESS;
