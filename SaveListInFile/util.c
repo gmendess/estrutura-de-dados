@@ -4,7 +4,7 @@
 #include "linked_list.h"
 
 FILE* openFile() {
-  FILE* file = fopen("list.bin", "rb+");
+  FILE* file = fopen("/home/skillfree/Área de Trabalho/estudoC/EstruturaDeDadosC/SaveListInFile/list.bin", "rb+");
   if(file == NULL){
     fprintf(stderr, "Algo deu errado ao abrir o arquivo º-º\n");
     exit(OPEN_FAIL);
