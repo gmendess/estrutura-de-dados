@@ -15,6 +15,7 @@
 
 // macros de erro
 #define NULL_POINTER_ERROR 10
+#define ZERO_DIVISION_ERROR 20
 
 
 #endif // _SIMPLETRON_UTILS_H
