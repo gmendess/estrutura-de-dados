@@ -39,9 +39,11 @@ void addSymbol(Table* table, int locale, int value, char type);
 int symbolExists(Table* table, int value);
 
 #define getNextToken() (strtok(NULL, " "))
+#define getExpression() (strtok(NULL, "="))
 
-#define isInput(token)  (strcmp(token, "input") == 0)
+#define isInput(token) (strcmp(token, "input") == 0)
 #define isPrint(token) (strcmp(token, "print") == 0)
 #define isEnd(token)   (strcmp(token, "end") == 0)
+#define isLet(token)   (strcmp(token, "let") == 0)
 
 #endif // _LMSC_H
