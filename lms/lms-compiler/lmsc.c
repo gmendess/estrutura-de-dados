@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <memory.h>
 #include "lmsc.h"
 
@@ -76,6 +77,53 @@ void readInstructions(LMS* lms, Table* table, FILE* const file) {
 
         // como input é uma instrução (READ), o contador de instruções é incrementado
         lms->instruction_count++;
+      }
+
+      // instrução print (11)
+      else if ( isPrint(token) ) {
+        // Pega a variável/constante a ser impressa
+        token = getNextToken();
+
+        // verifica se o primeiro dígito de token é um número, se for, token é uma constante númerica
+        char token_type = isdigit(token[0]) ? 'C' : 'V'; // verifica se é uma variável ou uma constante númerica
+        int token_value = token_type == 'V' ? token[0] : atoi(token); // pegando o valor correto do token (se for uma constante númerica, converte o token para inteiro, se for uma variável pega apenas o indice 0, que é seu identificador)
+        var_position = symbolExists(table, token_value);
+        if( !var_position ) {
+          addSymbol(table, lms->variable_pos, token_value, token_type);
+          var_position = lms->variable_pos--;
+        }
+
+        // montando instrução print, que é equivalente ao código WRITE (11) concatenado com a posição na memória do simpletron, que é representada por var_position
+        lms->instructions[lms->instruction_count] = 1100 + var_position; // Exemplo.: 1100 + 97 = 1197 (Imprimir valor da posição 97)
+        
+        // como print é uma instrução (WRITE), o contador de instruções é incrementado
+        lms->instruction_count++;
+      }
+
+      else if( isLet(token) ) {
+        // A instrução let é mais complexa do que as demais, pois ela é traduzida para mais de uma instrução em lms.
+        // Toda instrução let é seguida do nome de uma variável.
+        puts(token);
+        token = getNextToken();
+
+        // verifica se a variável ja existe na tabela de símbolos
+        var_position = symbolExists(table, token[0]);
+        
+        // se não existir, insere na tabela
+        if( !var_position ) {
+          addSymbol(table, lms->variable_pos, token[0], 'V');
+          var_position = lms->variable_pos--;
+        }
+
+        // aqui começa o inicio da "montagem" da instrução let
+
+        // Carregando valor da variável no acumulador
+        lms->instructions[lms->instruction_count] = 2000 + var_position;
+        lms->instruction_count--;
+        
+        // pega a expressão a ser analisada
+        token = getExpression();
+        puts(++token);
       }
 
       token = getNextToken(); // pega o próximo token/símbolo
