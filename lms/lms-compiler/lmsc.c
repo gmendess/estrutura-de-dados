@@ -124,7 +124,8 @@ void readInstructions(LMS* lms, Table* table, FILE* const file) {
 
         // função-macro para formatar corretamente o vetor infix
         formatInfix(infix, len); // faz a cópia de token para infix, e adiciona ')' e '\0' ao final
-        convertToPostfix(infix, len);
+        
+        puts(infix);
 
         // Agora é necessário converter a expressão para o formato postfix. Exemplo: a expressão `10 + 12` está no formato
         // infix, seu equivalente em postfix é `10 12 +`. Com isso, conseguiremos aplicar os conceitos de precedência aritmética
