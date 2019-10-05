@@ -39,7 +39,19 @@ void addSymbol(Table* table, int locale, int value, char type);
 int symbolExists(Table* table, int value);
 
 #define getNextToken() (strtok(NULL, " "))
-#define getExpression() (strtok(NULL, "="))
+
+#define getExpression() ({    \
+  token = strtok(NULL, "=");  \
+  if(token[0] == ' ')         \
+    ++token;                  \
+  token;\
+})
+
+#define formatInfix(infix, len) do { \
+  strncpy(infix, token, len);        \
+  infix[len] = ')';                  \
+  infix[len + 1] = '\0';             \
+}while(0)
 
 #define isInput(token) (strcmp(token, "input") == 0)
 #define isPrint(token) (strcmp(token, "print") == 0)
