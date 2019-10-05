@@ -72,7 +72,7 @@ void readInstructions(LMS* lms, Table* table, FILE* const file) {
         }
 
         // Agora é a parte de montar a instrução no "assembly" do Simpletron. Como esse é o READ, logo montaremos com o
-        // código 11 + operando. As instruções na linguagem de máquina do Simpletron são salvas em lms->instructions
+        // código 10 + operando. As instruções na linguagem de máquina do Simpletron são salvas em lms->instructions
         lms->instructions[lms->instruction_count] = 1000 + var_position; // Exemplo.: 1000 + 99 = 1099 (Ler e armazenar na posição 99)
 
         // como input é uma instrução (READ), o contador de instruções é incrementado
@@ -100,12 +100,14 @@ void readInstructions(LMS* lms, Table* table, FILE* const file) {
         lms->instruction_count++;
       }
 
+      // instrução let. Como ela é mais complexa, não há um código único para representá-la
       else if( isLet(token) ) {
         // A instrução let é mais complexa do que as demais, pois ela é traduzida para mais de uma instrução em lms.
         // Toda instrução let é seguida do nome de uma variável.
         puts(token);
-        token = getNextToken();
 
+        // pegando o nome da variável que receberá o resultado da expressão
+        token = getNextToken();
         // verifica se a variável ja existe na tabela de símbolos
         var_position = symbolExists(table, token[0]);
         
@@ -115,15 +117,19 @@ void readInstructions(LMS* lms, Table* table, FILE* const file) {
           var_position = lms->variable_pos--;
         }
 
-        // aqui começa o inicio da "montagem" da instrução let
-
-        // Carregando valor da variável no acumulador
-        lms->instructions[lms->instruction_count] = 2000 + var_position;
-        lms->instruction_count--;
-        
         // pega a expressão a ser analisada
         token = getExpression();
-        puts(++token);
+        size_t len = strlen(token);
+        char infix[len + 2]; // +2, pois no final de infix será adicionado um ')' e um '\0' 
+
+        // função-macro para formatar corretamente o vetor infix
+        formatInfix(infix, len); // faz a cópia de token para infix, e adiciona ')' e '\0' ao final
+        convertToPostfix(infix, len);
+
+        // Agora é necessário converter a expressão para o formato postfix. Exemplo: a expressão `10 + 12` está no formato
+        // infix, seu equivalente em postfix é `10 12 +`. Com isso, conseguiremos aplicar os conceitos de precedência aritmética
+        // para avaliar a expressão corretamente. Outro exemplo: `10 * (1 + 2)` = `10 1 2 + *` 
+
       }
 
       token = getNextToken(); // pega o próximo token/símbolo
