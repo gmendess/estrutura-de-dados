@@ -26,15 +26,6 @@ Node* createNode() {
   return new_node; // depois do retorno, verificar se new_node é NULL
 }
 
-Node* findNode(const List* const list, const int id) {
-  return NULL;
-}
-
-Node* prevNode(const List* const list, const int target_id) {
-  return NULL;
-}
-
-
 // adiciona um novo nó no final ou até achar um "buraco" na lista 
 int addNode(List* const list, const char* msg) {
   if(list == NULL)
