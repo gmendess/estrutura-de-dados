@@ -25,9 +25,8 @@ int exportList(FILE* file, const List* const list) {
   freopen(NULL, "wb+", file);
 
   Node* aux = list->head;
-  size_t bytes = 0; // usado para guardar a quantidade de bytes gravados no arquivos
   while(aux != NULL) {
-    bytes = fwrite(aux, sizeof(Node), 1, file);    
+    fwrite(aux, sizeof(Node), 1, file);    
     aux = aux->next;
   }
   return SUCCESS;
