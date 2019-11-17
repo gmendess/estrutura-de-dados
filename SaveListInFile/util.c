@@ -6,7 +6,7 @@
 FILE* openFile() {
   FILE* file = fopen("list.bin", "rb+");
   if(file == NULL){
-    fprintf(stderr, "Algo deu errado ao abrir o arquivo º-º\n");
+    fprintf(stderr, "Algo deu errado ao abrir o arquivo list.bin º-º. Certifique-se que ele exista!\n");
     exit(OPEN_FAIL);
   }
 
