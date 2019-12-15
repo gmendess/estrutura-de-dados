@@ -17,5 +17,6 @@ struct file {
 typedef struct file File;
 
 Directory* create_directory(const char* name);
+File* create_file(const char* name, const size_t file_size);
 
 #endif // _DIRECTORY_STRUCTURE_H
